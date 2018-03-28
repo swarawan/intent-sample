@@ -6,12 +6,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private final int REQUEST_PICKFILE = 1;
-    private final int REQUEST_IMAGE_CAPTURE = 1;
+    private final int REQUEST_IMAGE_CAPTURE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnSend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoNextPage();
+//                gotoNextPage();
+                goToAnotherPage();
             }
         });
 
@@ -54,8 +56,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void gotoNextPage() {
+    /**
+     * Cara pertama : Parcelable
+     */
+    private void goToAnotherPage() {
+        String name = ((EditText) findViewById(R.id.etName)).getText().toString();
+        String email = ((EditText) findViewById(R.id.etEmail)).getText().toString();
+
+        DataModel model = new DataModel();
+        model.name = name;
+        model.email = email;
+
         Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra("parcel", model);
+        startActivity(intent);
+    }
+
+    /**
+     * Cara Kedua: Bundle
+     * Cara ketika: Langsung via Intent
+     */
+    private void gotoNextPage() {
+        String name = ((EditText) findViewById(R.id.etName)).getText().toString();
+        String email = ((EditText) findViewById(R.id.etEmail)).getText().toString();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(ResultActivity.KEY_ANDROID, "Android Xiaomi");
+        bundle.putInt("bundle-harga", 100000);
+        bundle.putBoolean("bundle-dijual", false);
+
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(ResultActivity.KEY_NAME, name);
+        intent.putExtra("extra-email", email);
+        intent.putExtras(bundle);
+
         startActivity(intent);
     }
 
@@ -89,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showToast(final String msg) {
+    void showToast(final String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 

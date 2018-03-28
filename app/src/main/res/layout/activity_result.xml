@@ -6,11 +6,13 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Name  : Rio Swarawan" />
 
     <TextView
+        android:id="@+id/tvEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Email  : swarawan.rio@gmail.com" />
